@@ -18,7 +18,7 @@ namespace SAS.Gateway.Infrastructure.DependencyInjection
             if (!File.Exists(publicKeyPath))
                 throw new FileNotFoundException($"Public key file not found at {publicKeyPath}");
 
-            // Read public key (PEM or raw base64)
+            // Read public key 
             var publicKeyText = File.ReadAllText(publicKeyPath).Trim();
 
             // If PEM format, strip headers/footers
