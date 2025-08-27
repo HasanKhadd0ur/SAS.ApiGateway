@@ -15,4 +15,6 @@
     <PackageReference Include="Yarp.ReverseProxy" Version="2.3.0" />
   </ItemGroup>
 
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="https://www.unpkg.com/wrangler/config-schema.json" /></VisualStudio></ProjectExtensions>
+
 </Project>
