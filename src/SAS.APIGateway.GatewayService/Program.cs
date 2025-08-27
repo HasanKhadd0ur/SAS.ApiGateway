@@ -1,3 +1,5 @@
+using SAS.Gateway.Infrastructure.DependencyInjection;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCors(options =>
@@ -11,6 +13,11 @@ builder.Services.AddCors(options =>
     );
 });
 
+
+// Add JWT authentication
+builder.Services.AddJwtAuthentication(builder.Configuration);
+
+
 // Load Reverse Proxy from appsettings.json
 builder.Services.AddReverseProxy()
     .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
@@ -23,6 +30,9 @@ var app = builder.Build();
 app.UseHttpsRedirection();
 
 app.UseCors("AllowAngularDevClient");
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 // Enable routing through proxy
 app.MapReverseProxy();
