@@ -2,17 +2,28 @@ using SAS.Gateway.Infrastructure.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy("AllowAngularDevClient",
+//        builder => builder
+//            .WithOrigins("http://localhost:4200")
+//            .AllowAnyHeader()
+//            .AllowAnyMethod()
+//            .AllowCredentials() 
+//    );
+//});
+
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAngularDevClient",
-        builder => builder
-            .WithOrigins("http://localhost:4200")
-            .AllowAnyHeader()
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy
+            .AllowAnyOrigin()
+            .SetIsOriginAllowedToAllowWildcardSubdomains()
             .AllowAnyMethod()
-            .AllowCredentials() 
-    );
+            .AllowAnyHeader();
+    });
 });
-
 
 // Add JWT authentication
 builder.Services.AddJwtAuthentication(builder.Configuration);
@@ -29,7 +40,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 app.UseHttpsRedirection();
 
-app.UseCors("AllowAngularDevClient");
+app.UseCors("AllowAll");
 
 app.UseAuthentication();
 app.UseAuthorization();
